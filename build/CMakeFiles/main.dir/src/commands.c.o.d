@@ -1,6 +1,8 @@
-CMakeFiles/main.dir/src/main.c.o: \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/main.c \
- /usr/include/stdc-predef.h /usr/include/stdio.h \
+CMakeFiles/main.dir/src/commands.c.o: \
+ /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.c \
+ /usr/include/stdc-predef.h \
+ /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -51,12 +53,4 @@ CMakeFiles/main.dir/src/main.c.o: \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./command_parser/command_parser.h \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./filesystem.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./commands.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h

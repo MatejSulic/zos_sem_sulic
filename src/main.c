@@ -4,6 +4,7 @@
 
 #include "./command_parser/command_parser.h"
 #include "./filesystem.h"
+#include "./commands.h"
 
 int main(int argc, char* argv[]) {
     char fs_name[MAX_FILENAME_LENGTH]; 
@@ -29,8 +30,8 @@ int main(int argc, char* argv[]) {
             break;
 
         CommandTokens tokens = parse_command(command);
+        execute_command(tokens.count, tokens.tokens);
 
-        print_command_tokens(tokens);
 
     }
 

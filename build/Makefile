@@ -153,6 +153,30 @@ src/command_parser/command_parser.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/command_parser/command_parser.c.s
 .PHONY : src/command_parser/command_parser.c.s
 
+src/commands.o: src/commands.c.o
+.PHONY : src/commands.o
+
+# target to build an object file
+src/commands.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/commands.c.o
+.PHONY : src/commands.c.o
+
+src/commands.i: src/commands.c.i
+.PHONY : src/commands.i
+
+# target to preprocess a source file
+src/commands.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/commands.c.i
+.PHONY : src/commands.c.i
+
+src/commands.s: src/commands.c.s
+.PHONY : src/commands.s
+
+# target to generate assembly for a file
+src/commands.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/commands.c.s
+.PHONY : src/commands.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... src/command_parser/command_parser.o"
 	@echo "... src/command_parser/command_parser.i"
 	@echo "... src/command_parser/command_parser.s"
+	@echo "... src/commands.o"
+	@echo "... src/commands.i"
+	@echo "... src/commands.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

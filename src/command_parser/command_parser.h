@@ -1,13 +1,18 @@
 #ifndef COMMAND_PARSER_H
 #define COMMAND_PARSER_H
 
-struct CommandInput {
-    int argc;
-    char* argv[10];
-};
+#define MAX_TOKENS 10
+#define MAX_COMMAND_LENGTH 256
 
-struct CommandInput create_command();
-struct CommandInput parse_command(const char* command);
-void free_command(struct CommandInput* cmd);
+// Struktura s tokeny
+typedef struct {
+    char *tokens[MAX_TOKENS];
+    int count;
+} CommandTokens;
+
+// Rozdělí příkaz na tokeny
+CommandTokens parse_command(char *input);
+
+void print_command_tokens(CommandTokens tokens);
 
 #endif

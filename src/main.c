@@ -3,19 +3,20 @@
 #include <stdlib.h>
 
 #include "./command_parser/command_parser.h"
+#include "./filesystem.h"
 
 int main(int argc, char* argv[]) {
-    char command[256];
-    struct CommandInput cmd;
-    char* filesystem_name;
+    char fs_name[MAX_FILENAME_LENGTH]; 
+    char command[MAX_COMMAND_LENGTH];
 
-    if (argc != 2) {
-        printf("Invalid arguments\n");
+    if(argc != 2) {
+        printf("Error: Invalid arguments\n");
         return 1;
     }
+    strncpy(fs_name, argv[1], MAX_FILENAME_LENGTH - 1);
 
-    filesystem_name = argv[1];
-    printf("Filesystem name: %s\n", filesystem_name);
+    printf("Filesystem: %s\n", fs_name);
+
 
     for (;;) {
         printf("> ");
@@ -27,11 +28,9 @@ int main(int argc, char* argv[]) {
         if (strcmp(command, "exit") == 0)
             break;
 
-        cmd = parse_command(command);
-        
+        CommandTokens tokens = parse_command(command);
 
-        
-        free_command(&cmd);
+        print_command_tokens(tokens);
 
     }
 

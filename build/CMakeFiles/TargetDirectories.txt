@@ -1,0 +1,3 @@
+/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles/main.dir
+/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles/edit_cache.dir
+/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles/rebuild_cache.dir

@@ -4,16 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// Příklad datových struktur pro semestrální práci ZOS
-// Jedná se o zjednodušenou verzi fs pro účely semestrální práce
-// Verze 2025-01
+#define MAX_FILENAME_LENGTH 12 
 
-// První i-uzel bude odkaz na hlavní adresář (1. datový blok)
-// V reálném fs je více přímých odkazů a nepřímé odkazy 3. řádu
-// Adresář vždy obsahuje dvojici číslo i-uzlu - název souboru
-// Jde jen o příklad, vlastní datové struktury si můžete upravit
-
-const int32_t ID_ITEM_FREE = 0;
 
 /**
  * Superblok - hlavní struktura popisující celý filesystem

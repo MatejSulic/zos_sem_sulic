@@ -6,7 +6,7 @@
 
 #define MAX_FILENAME_LENGTH 12 
 #define CLUSTER_SIZE 4096
-#define SIGNATURE "ZOS_SULIC"
+#define SIGNATURE "SULIC"
 #define DESCRIPTOR "VFS created by Sulic for ZOS course"
 
 

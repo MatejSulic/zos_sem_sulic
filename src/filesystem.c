@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 
 
@@ -290,4 +291,26 @@ void handle_load(int argc, char **argv) {
 
 void handle_statfs(int argc, char **argv) {
     printf("handle_statfs was called\n");
+
+    // Jednoducho vytlačíme hodnoty z globálnej 'sb',
+    // ktorú by mal načítať fs_init() hneď po spustení.
+    
+    printf("Signature: %s\n", sb.signature);
+    printf("Volume Descriptor: %s\n", sb.volume_descriptor);
+    printf("Disk Size: %d B\n", sb.disk_size);
+    printf("Cluster Size: %d B\n", sb.cluster_size);
+    printf("Cluster Count: %d\n", sb.cluster_count);
+    
+    // Tu by si ešte mohol pridať aj inode_count, ak ho máš v sb
+    // printf("Inode Count: %d\n", sb.inode_count);
+
+    printf("Bitmap Inode Start: %d\n", sb.bitmapi_start_address);
+    printf("Bitmap Data Start: %d\n", sb.bitmap_start_address);
+    printf("Inode Table Start: %d\n", sb.inode_start_address);
+    printf("Data Blocks Start: %d\n", sb.data_start_address);
+
+    // TODO: Neskôr môžeš pridať výpočet voľného miesta
+    // (prejdením oboch bitmap a sčítaním voľných bitov)
+
+    printf("OK\n");
 }

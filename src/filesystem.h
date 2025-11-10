@@ -56,19 +56,23 @@ void handle_format(int argc, char **argv);
 int fs_init(const char *filename);
 void fs_shutdown();
 
+
+struct pseudo_inode fs_read_inode(int32_t inode_num);
+void handle_ls(int argc, char **argv);
+void handle_statfs(int argc, char **argv);
+
+
 void handle_cp(int argc, char **argv);
 void handle_mv(int argc, char **argv);
 void handle_rm(int argc, char **argv);
 void handle_mkdir(int argc, char **argv);
 void handle_rmdir(int argc, char **argv);
 void handle_cat(int argc, char **argv);
-void handle_ls(int argc, char **argv);
 void handle_cd(int argc, char **argv);
 void handle_pwd(int argc, char **argv);
 void handle_info(int argc, char **argv);
 void handle_incp(int argc, char **argv);
 void handle_outcp(int argc, char **argv);
 void handle_load(int argc, char **argv);
-void handle_statfs(int argc, char **argv);
 
 #endif // FILESYSTEM_H

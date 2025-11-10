@@ -254,9 +254,74 @@ void handle_cat(int argc, char **argv) {
 /* =============================================================================
  * Příkazy pro navigaci a výpis informací
  * ============================================================================= */
+/**
+ * @brief Načte strukturu i-uzlu z disku podle jeho čísla.
+ * @param inode_num Číslo i-uzlu, který se má načíst.
+ * @return Načtená struktura pseudo_inode.
+ */
+struct pseudo_inode fs_read_inode(int32_t inode_num) {
+    struct pseudo_inode node; // Do téhle proměnné budeme číst
+    
+    // 1. Vypočítáme adresu i-uzlu (pomocí 'sb' z globální proměnné)
+    long address = sb.inode_start_address + (inode_num * sizeof(struct pseudo_inode));
+    
+    // 2. Skočíme na ni
+    fseek(fs_file, address, SEEK_SET);
+    
+    // 3. Přečteme data do proměnné 'node'
+    //    Čteme jeden kus o velikosti pseudo_inode
+    fread(&node, sizeof(struct pseudo_inode), 1, fs_file);
+    
+    return node;
+}
 
 void handle_ls(int argc, char **argv) {
     printf("handle_ls was called\n");
+
+    // ZJIŠTĚNÍ PRO TYP: Budeme muset načítat i-uzly položek
+    // Tato verze je zjednodušená a vypíše jen jména.
+    // Pro splnění zadání (DIR: / FILE:) je potřeba Krok 3.
+
+    // 1. Načteme i-uzel aktuálního adresáře
+    //    (current_dir_inode_num je globální proměnná)
+    struct pseudo_inode current_dir_node = fs_read_inode(current_dir_inode_num);
+
+    // 2. Zjistíme, kolik položek v adresáři je
+    int total_items = current_dir_node.file_size / sizeof(struct directory_item);
+
+    // 3. Zjistíme, který datový blok máme číst (zatím jen ten první)
+    int32_t data_block_num = current_dir_node.direct1;
+
+    // 4. Vypočítáme adresu toho datového bloku
+    long data_address = sb.data_start_address + (data_block_num * cluster_size);
+
+    // 5. Vytvoříme si buffer (přihrádku) na obsah bloku
+    char buffer[cluster_size];
+
+    // 6. Načteme celý datový blok z disku do bufferu
+    fseek(fs_file, data_address, SEEK_SET);
+    fread(buffer, cluster_size, 1, fs_file);
+
+    // 7. Proměníme buffer na pole položek
+    // Řekneme Céčku: "Dívej se na tento buffer jako na pole struktur"
+    struct directory_item *items = (struct directory_item *)buffer;
+
+    // 8. Projdeme všechny položky a vypíšeme je
+    for (int i = 0; i < total_items; i++) {
+        struct directory_item item = items[i];
+
+        // --- KROK 3 (Vylepšení pro DIR:/FILE:) ---
+        // Abychom zjistili typ, musíme načíst i-uzel položky
+        struct pseudo_inode item_node = fs_read_inode(item.inode);
+        
+        if (item_node.isDirectory) {
+            printf("DIR: %s\n", item.item_name);
+        } else {
+            printf("FILE: %s\n", item.item_name);
+        }
+    }
+
+    printf("OK\n");
 }
 
 void handle_cd(int argc, char **argv) {

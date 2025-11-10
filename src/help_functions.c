@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 /**
  * @brief Převede string s velikostí (např. "600M", "1G") na počet bajtů.
@@ -50,4 +51,6 @@ int64_t parse_size_to_bytes(char *size_str) {
 
     return number_part * multiplier;
 }
+
+
 

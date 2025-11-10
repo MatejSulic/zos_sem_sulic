@@ -4,8 +4,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic ")
 
 add_executable(main
    src/main.c
+   src/filesystem.c
    src/command_parser/command_parser.c
-   src/commands.c
 
 )
 

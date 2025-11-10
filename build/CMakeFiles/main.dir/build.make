@@ -83,10 +83,24 @@ CMakeFiles/main.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/main.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/main.c -o CMakeFiles/main.dir/src/main.c.s
 
+CMakeFiles/main.dir/src/filesystem.c.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/filesystem.c.o: /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/filesystem.c
+CMakeFiles/main.dir/src/filesystem.c.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/filesystem.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/filesystem.c.o -MF CMakeFiles/main.dir/src/filesystem.c.o.d -o CMakeFiles/main.dir/src/filesystem.c.o -c /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/filesystem.c
+
+CMakeFiles/main.dir/src/filesystem.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/filesystem.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/filesystem.c > CMakeFiles/main.dir/src/filesystem.c.i
+
+CMakeFiles/main.dir/src/filesystem.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/filesystem.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/filesystem.c -o CMakeFiles/main.dir/src/filesystem.c.s
+
 CMakeFiles/main.dir/src/command_parser/command_parser.c.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/command_parser/command_parser.c.o: /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c
 CMakeFiles/main.dir/src/command_parser/command_parser.c.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/command_parser/command_parser.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/main.dir/src/command_parser/command_parser.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/command_parser/command_parser.c.o -MF CMakeFiles/main.dir/src/command_parser/command_parser.c.o.d -o CMakeFiles/main.dir/src/command_parser/command_parser.c.o -c /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c
 
 CMakeFiles/main.dir/src/command_parser/command_parser.c.i: cmake_force
@@ -97,32 +111,18 @@ CMakeFiles/main.dir/src/command_parser/command_parser.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/command_parser/command_parser.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c -o CMakeFiles/main.dir/src/command_parser/command_parser.c.s
 
-CMakeFiles/main.dir/src/commands.c.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/commands.c.o: /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.c
-CMakeFiles/main.dir/src/commands.c.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/main.dir/src/commands.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/commands.c.o -MF CMakeFiles/main.dir/src/commands.c.o.d -o CMakeFiles/main.dir/src/commands.c.o -c /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.c
-
-CMakeFiles/main.dir/src/commands.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/commands.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.c > CMakeFiles/main.dir/src/commands.c.i
-
-CMakeFiles/main.dir/src/commands.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/commands.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/commands.c -o CMakeFiles/main.dir/src/commands.c.s
-
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/src/main.c.o" \
-"CMakeFiles/main.dir/src/command_parser/command_parser.c.o" \
-"CMakeFiles/main.dir/src/commands.c.o"
+"CMakeFiles/main.dir/src/filesystem.c.o" \
+"CMakeFiles/main.dir/src/command_parser/command_parser.c.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/src/main.c.o
+main: CMakeFiles/main.dir/src/filesystem.c.o
 main: CMakeFiles/main.dir/src/command_parser/command_parser.c.o
-main: CMakeFiles/main.dir/src/commands.c.o
 main: CMakeFiles/main.dir/build.make
 main: CMakeFiles/main.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable main"

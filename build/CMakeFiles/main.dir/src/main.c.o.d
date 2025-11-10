@@ -53,10 +53,10 @@ CMakeFiles/main.dir/src/main.c.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./command_parser/command_parser.h \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./filesystem.h \
+ /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./command_parser/../filesystem.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./commands.h
+ /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/./filesystem.h

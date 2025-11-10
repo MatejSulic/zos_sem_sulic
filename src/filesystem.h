@@ -1,5 +1,5 @@
-#ifndef _H
-#define STRUCTURES_H
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -47,4 +47,21 @@ struct directory_item {
     char item_name[12];             // 8+3 + \0 C/C++ ukončovací string znak
 };
 
-#endif // STRUCTURES_H
+
+void handle_cp(int argc, char **argv);
+void handle_mv(int argc, char **argv);
+void handle_rm(int argc, char **argv);
+void handle_mkdir(int argc, char **argv);
+void handle_rmdir(int argc, char **argv);
+void handle_cat(int argc, char **argv);
+void handle_ls(int argc, char **argv);
+void handle_cd(int argc, char **argv);
+void handle_pwd(int argc, char **argv);
+void handle_info(int argc, char **argv);
+void handle_incp(int argc, char **argv);
+void handle_outcp(int argc, char **argv);
+void handle_load(int argc, char **argv);
+void handle_format(int argc, char **argv);
+void handle_statfs(int argc, char **argv);
+
+#endif // FILESYSTEM_H

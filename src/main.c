@@ -4,7 +4,6 @@
 
 #include "./command_parser/command_parser.h"
 #include "./filesystem.h"
-#include "./commands.h"
 
 int main(int argc, char* argv[]) {
     char fs_name[MAX_FILENAME_LENGTH]; 

@@ -1,1 +1,1 @@
-/usr/bin/gcc  -Wall -Wextra -pedantic  -g CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/command_parser/command_parser.c.o CMakeFiles/main.dir/src/commands.c.o -o main  -lm 
+/usr/bin/gcc  -Wall -Wextra -pedantic  -g CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/filesystem.c.o CMakeFiles/main.dir/src/command_parser/command_parser.c.o -o main  -lm 

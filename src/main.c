@@ -9,13 +9,19 @@ int main(int argc, char* argv[]) {
     char fs_name[MAX_FILENAME_LENGTH]; 
     char command[MAX_COMMAND_LENGTH];
 
-    if(argc != 2) {
-        printf("Error: Invalid arguments\n");
-        return 1;
-    }
+   if(argc != 2) {
+    printf("Error: Invalid arguments\n");
+    return 1;
+}
+
     strncpy(fs_name, argv[1], MAX_FILENAME_LENGTH - 1);
+    fs_name[MAX_FILENAME_LENGTH - 1] = '\0';
 
     printf("Filesystem: %s\n", fs_name);
+    if (fs_init(fs_name) != 0) {
+        printf("Error: Could not initialize filesystem\n");
+        return 1;
+    }
 
 
     for (;;) {
@@ -33,6 +39,7 @@ int main(int argc, char* argv[]) {
 
 
     }
+    fs_shutdown();
 
     return 0;
 }

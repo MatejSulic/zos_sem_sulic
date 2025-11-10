@@ -50,3 +50,4 @@ int64_t parse_size_to_bytes(char *size_str) {
 
     return number_part * multiplier;
 }
+

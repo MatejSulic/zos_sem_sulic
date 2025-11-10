@@ -6,6 +6,8 @@
 
 #define MAX_FILENAME_LENGTH 12 
 #define CLUSTER_SIZE 4096
+#define SIGNATURE "ZOS_SULIC"
+#define DESCRIPTOR "VFS created by Sulic for ZOS course"
 
 
 /**
@@ -49,6 +51,11 @@ struct directory_item {
 };
 
 
+void handle_format(int argc, char **argv);
+// --- Prototypy pro správu FS ---
+int fs_init(const char *filename);
+void fs_shutdown();
+
 void handle_cp(int argc, char **argv);
 void handle_mv(int argc, char **argv);
 void handle_rm(int argc, char **argv);
@@ -62,7 +69,6 @@ void handle_info(int argc, char **argv);
 void handle_incp(int argc, char **argv);
 void handle_outcp(int argc, char **argv);
 void handle_load(int argc, char **argv);
-void handle_format(int argc, char **argv);
 void handle_statfs(int argc, char **argv);
 
 #endif // FILESYSTEM_H

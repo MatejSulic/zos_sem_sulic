@@ -23,6 +23,12 @@ int32_t cluster_count = 0;
 
 
 
+// Předpokládám, že máš někde nahoře definované globální proměnné:
+// extern FILE *fs_file;
+// extern struct superblock sb;
+// extern int32_t current_dir_inode_num;
+// A konstanty jako SIGNATURE, DESCRIPTOR, cluster_size...
+
 void handle_format(int argc, char **argv) {
     printf("handle_format was called\n");
 
@@ -30,7 +36,7 @@ void handle_format(int argc, char **argv) {
     char *size_str = argv[1];
 
     // 2. Převedeme ho na reálný počet bajtů
-    total_disk_size = parse_size_to_bytes(size_str);
+    int64_t total_disk_size = parse_size_to_bytes(size_str);
 
     if (total_disk_size <= 0) {
         printf("Chyba: Neplatná velikost disku.\n");
@@ -38,6 +44,14 @@ void handle_format(int argc, char **argv) {
     }
     
     printf("Formátování na %lld bajtů...\n", total_disk_size);
+    
+    // --- KROK A: NATÁHNUTÍ SOUBORU NA POŽADOVANOU VELIKOST ---
+    // (Musí být před výpočty, pokud by fs_file byl globální)
+    // Pokud je fs_file již otevřený z fs_init:
+    fseek(fs_file, total_disk_size - 1, SEEK_SET);
+    fwrite("\0", 1, 1, fs_file);
+    printf("Soubor roztažen na požadovanou velikost.\n");
+
 
     // 3. Vypočítáme počet clusterů
     int32_t cluster_count = total_disk_size / cluster_size;
@@ -61,20 +75,152 @@ void handle_format(int argc, char **argv) {
     int32_t inode_table_start = bitmap_data_start + bitmap_data_size;
     int32_t data_block_start = inode_table_start + inode_table_size;
 
-    // Kontrolni vypis
-    printf("Cluster size: %d bajtů\n", cluster_size);
-    printf("Cluster count: %d\n", cluster_count);
-    printf("Inode count: %d\n", inode_count);
+    // (Kontrolní výpisy máš dobře)
+    // ...
 
+    // 9. Vytvoříme superblok v lokální proměnné
+    struct superblock new_sb;
 
-    printf("Bitmapa i-uzlů začíná na: %d\n",    bitmap_inode_start);
-    printf("Bitmapa datových bloků začíná na: %d\n", bitmap_data_start);
-    printf("Tabulka i-uzlů začíná na: %d\n", inode_table_start);
-    printf("Datové bloky začínají na: %d\n", data_block_start);
+    // Vyplníme superblok
+    snprintf(new_sb.signature, sizeof(new_sb.signature), "%s", SIGNATURE);
+    snprintf(new_sb.volume_descriptor, sizeof(new_sb.volume_descriptor), "%s", DESCRIPTOR);
+    new_sb.disk_size = total_disk_size;
+    new_sb.cluster_size = cluster_size;
+    new_sb.cluster_count = cluster_count;
+    // Tady bys měl přidat i inode_count, pokud ho máš ve struktuře
+    // new_sb.inode_count = inode_count; 
+    new_sb.bitmapi_start_address = bitmap_inode_start;
+    new_sb.bitmap_start_address = bitmap_data_start;
+    new_sb.inode_start_address = inode_table_start;
+    new_sb.data_start_address = data_block_start;
 
+    // --- KROK B: FYZICKÝ ZÁPIS SUPERBLOCKU NA DISK ---
+    fseek(fs_file, 0, SEEK_SET);
+    fwrite(&new_sb, sizeof(struct superblock), 1, fs_file);
+    printf("Superblock zapsán na disk.\n");
 
+    // --- KROK C: VYČIŠTĚNÍ (VYNULOVÁNÍ) BITMAP ---
+    // Použijeme calloc, který alokuje paměť a rovnou ji vynuluje
+    char *zero_buffer = calloc(bitmap_inode_size, 1);
+    if (zero_buffer == NULL) { printf("Chyba alokace paměti pro bitmapu i-uzlů\n"); return; }
+    fseek(fs_file, new_sb.bitmapi_start_address, SEEK_SET);
+    fwrite(zero_buffer, bitmap_inode_size, 1, fs_file);
+    free(zero_buffer); // Uvolníme paměť
+
+    zero_buffer = calloc(bitmap_data_size, 1);
+    if (zero_buffer == NULL) { printf("Chyba alokace paměti pro bitmapu dat\n"); return; }
+    fseek(fs_file, new_sb.bitmap_start_address, SEEK_SET);
+    fwrite(zero_buffer, bitmap_data_size, 1, fs_file);
+    free(zero_buffer); // Uvolníme paměť
+    printf("Bitmapy vynulovány.\n");
+
+    // --- KROK D: VYTVOŘENÍ KOŘENOVÉHO ADRESÁŘE (INODE 0 + DATA 0) ---
+
+    // 1. Vytvoříme i-uzel pro kořen (v paměti)
+    struct pseudo_inode root_inode;
+    root_inode.nodeid = 0;
+    root_inode.isDirectory = true;
+    root_inode.references = 1;
+    root_inode.file_size = 2 * sizeof(struct directory_item); // Bude obsahovat '.' a '..'
+    root_inode.direct1 = 0; // Odkaz na první datový blok (blok č. 0)
+    root_inode.direct2 = 0; // 0 znamená nevyužito
+    root_inode.direct3 = 0;
+    root_inode.direct4 = 0;
+    root_inode.direct5 = 0;
+    root_inode.indirect1 = 0;
+    root_inode.indirect2 = 0;
+
+    // 2. Zápis i-uzlu na disk (na začátek tabulky i-uzlů)
+    fseek(fs_file, new_sb.inode_start_address, SEEK_SET);
+    fwrite(&root_inode, sizeof(struct pseudo_inode), 1, fs_file);
+
+    // 3. Vytvoření obsahu kořenového adresáře ('.' a '..')
+    struct directory_item root_content[2];
+    root_content[0].inode = 0; // '.' ukazuje sám na sebe
+    strncpy(root_content[0].item_name, ".", 12);
+    
+    root_content[1].inode = 0; // '..' v kořeni ukazuje taky na sebe
+    strncpy(root_content[1].item_name, "..", 12);
+
+    // 4. Zápis obsahu do prvního datového bloku
+    fseek(fs_file, new_sb.data_start_address, SEEK_SET);
+    fwrite(&root_content, sizeof(root_content), 1, fs_file);
+    printf("Kořenový adresář (inode 0 + data 0) vytvořen.\n");
+
+    // --- KROK E: AKTUALIZACE BITMAP (OZNAČENÍ PRVNÍCH BITŮ) ---
+    // Označíme i-uzel 0 a datový blok 0 jako obsazené
+    char first_bit_set = 0x80; // Bajt, kde je první bit 1 (10000000)
+
+    // Zápis do bitmapy i-uzlů
+    fseek(fs_file, new_sb.bitmapi_start_address, SEEK_SET);
+    fwrite(&first_bit_set, 1, 1, fs_file);
+
+    // Zápis do bitmapy datových bloků
+    fseek(fs_file, new_sb.bitmap_start_address, SEEK_SET);
+    fwrite(&first_bit_set, 1, 1, fs_file);
+    printf("Bitmapy aktualizovány (obsazeno 0. i-uzel a 0. datový blok).\n");
+
+    // --- KROK F: FINALIZACE ---
+    // Zkopírujeme lokální new_sb do globální 'sb' (náš "hlavní zápisník")
+    sb = new_sb; 
+    current_dir_inode_num = 0; // Jsme v kořeni
+
+    printf("OK\n");
+}
+/**
+ * @brief Inicializuje souborový systém.
+ * Otevře soubor a načte Superblock do globální proměnné 'sb'.
+ * @param filename Cesta k souboru s FS (např. "muj_fs.dat")
+ * @return 0 při úspěchu, -1 při chybě.
+ */
+int fs_init(const char *filename) {
+    // 1. Otevři soubor pro čtení i zápis v binárním režimu
+    fs_file = fopen(filename, "r+b");
+
+    if (fs_file == NULL) {
+        // Soubor neexistuje. Zkusíme ho vytvořit.
+        fs_file = fopen(filename, "w+b");
+        if (fs_file == NULL) {
+            perror("CHYBA: Nelze otevřít ani vytvořit soubor FS");
+            return -1;
+        }
+        
+        // Soubor je nový, ale prázdný. 
+        // Je potřeba ho naformátovat.
+        printf("Soubor '%s' neexistuje nebo je prázdný. Bude vytvořen. Pro použití je nutné ho naformátovat.\n", filename);
+        // Necháme 'sb' prázdný, 'format' ho naplní.
+        return 0; // Vracíme úspěch, i když je prázdný
+        
+    } else {
+        // Soubor existuje, načteme z něj Superblock
+        fseek(fs_file, 0, SEEK_SET);
+        int read_count = fread(&sb, sizeof(struct superblock), 1, fs_file);
+        
+        if (read_count != 1) {
+            // Soubor je poškozený nebo prázdný
+            printf("Soubor '%s' je poškozený. Před použitím ho naformátujte.\n", filename);
+            // Můžeme starou 'sb' vynulovat
+            memset(&sb, 0, sizeof(struct superblock));
+        } else {
+            // Vše je v pořádku, Superblock je načten v 'sb'
+            printf("Souborový systém '%s' úspěšně načten.\n", filename);
+        }
+    }
+
+    current_dir_inode_num = 0; // Vždy začínáme v kořeni
+    return 0;
 }
 
+/**
+ * @brief Bezpečně zavře soubor FS.
+ */
+void fs_shutdown() {
+    if (fs_file != NULL) {
+        fclose(fs_file);
+        fs_file = NULL;
+        printf("Souborový systém uzavřen.\n");
+    }
+}
 
 /* =============================================================================
  * Základní příkazy pro manipulaci se soubory a adresáři

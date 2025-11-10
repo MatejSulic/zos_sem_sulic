@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #define MAX_FILENAME_LENGTH 12 
+#define CLUSTER_SIZE 4096
 
 
 /**

@@ -6,6 +6,7 @@ add_executable(main
    src/main.c
    src/filesystem.c
    src/command_parser/command_parser.c
+   src/help_functions.c
 
 )
 

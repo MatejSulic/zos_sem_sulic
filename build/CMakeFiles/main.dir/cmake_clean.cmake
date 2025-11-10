@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/src/command_parser/command_parser.c.o.d"
   "CMakeFiles/main.dir/src/filesystem.c.o"
   "CMakeFiles/main.dir/src/filesystem.c.o.d"
+  "CMakeFiles/main.dir/src/help_functions.c.o"
+  "CMakeFiles/main.dir/src/help_functions.c.o.d"
   "CMakeFiles/main.dir/src/main.c.o"
   "CMakeFiles/main.dir/src/main.c.o.d"
   "main"

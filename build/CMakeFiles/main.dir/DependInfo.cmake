@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c" "CMakeFiles/main.dir/src/command_parser/command_parser.c.o" "gcc" "CMakeFiles/main.dir/src/command_parser/command_parser.c.o.d"
   "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/filesystem.c" "CMakeFiles/main.dir/src/filesystem.c.o" "gcc" "CMakeFiles/main.dir/src/filesystem.c.o.d"
+  "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/help_functions.c" "CMakeFiles/main.dir/src/help_functions.c.o" "gcc" "CMakeFiles/main.dir/src/help_functions.c.o.d"
   "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/main.c" "CMakeFiles/main.dir/src/main.c.o" "gcc" "CMakeFiles/main.dir/src/main.c.o.d"
   )
 

@@ -177,6 +177,30 @@ src/filesystem.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/filesystem.c.s
 .PHONY : src/filesystem.c.s
 
+src/help_functions.o: src/help_functions.c.o
+.PHONY : src/help_functions.o
+
+# target to build an object file
+src/help_functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/help_functions.c.o
+.PHONY : src/help_functions.c.o
+
+src/help_functions.i: src/help_functions.c.i
+.PHONY : src/help_functions.i
+
+# target to preprocess a source file
+src/help_functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/help_functions.c.i
+.PHONY : src/help_functions.c.i
+
+src/help_functions.s: src/help_functions.c.s
+.PHONY : src/help_functions.s
+
+# target to generate assembly for a file
+src/help_functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/help_functions.c.s
+.PHONY : src/help_functions.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -216,6 +240,9 @@ help:
 	@echo "... src/filesystem.o"
 	@echo "... src/filesystem.i"
 	@echo "... src/filesystem.s"
+	@echo "... src/help_functions.o"
+	@echo "... src/help_functions.i"
+	@echo "... src/help_functions.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

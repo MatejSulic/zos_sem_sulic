@@ -16,5 +16,11 @@
   "command": "/usr/bin/gcc    -Wall -Wextra -pedantic  -g -o CMakeFiles/main.dir/src/command_parser/command_parser.c.o -c /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c",
   "file": "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/command_parser/command_parser.c",
   "output": "CMakeFiles/main.dir/src/command_parser/command_parser.c.o"
+},
+{
+  "directory": "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/build",
+  "command": "/usr/bin/gcc    -Wall -Wextra -pedantic  -g -o CMakeFiles/main.dir/src/help_functions.c.o -c /home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/help_functions.c",
+  "file": "/home/matej/Vejska/3.rok/ZOS/Semestralka/zos_sem_sulic/src/help_functions.c",
+  "output": "CMakeFiles/main.dir/src/help_functions.c.o"
 }
 ]

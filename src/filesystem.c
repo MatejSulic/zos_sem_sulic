@@ -337,14 +337,100 @@ void handle_cat(int argc, char **argv) {
 /* =============================================================================
  * PŘÍKAZY PRO NAVIGACI A VÝPIS
  * ============================================================================= */
+/**
+ * @brief Najde položku podle jména v daném adresáři.
+ * ZJEDNODUŠENÁ VERZE: Prohledává pouze první datový blok adresáře.
+ *
+ * @param dir_inode_num Číslo i-uzlu adresáře, ve kterém se má hledat.
+ * @param item_name Jméno souboru/adresáře, který hledáme.
+ * @return Číslo i-uzlu nalezené položky, nebo -1 pokud nenalezeno.
+ */
+int32_t fs_find_item_in_dir(int32_t dir_inode_num, const char *item_name) {
+    // 1. Načteme i-uzel adresáře, ve kterém hledáme
+    struct pseudo_inode dir_node = fs_read_inode(dir_inode_num);
+
+    // 2. Zkontrolujeme, jestli je to vůbec adresář
+    if (dir_node.isDirectory == false) {
+        return -1; // Není to adresář, nemůžeme v něm hledat
+    }
+
+    // 3. Vytvoříme si buffer o velikosti jednoho clusteru
+    // Ujisti se, že 'cluster_size' je dostupná (např. ze 'sb.cluster_size')
+    char *buffer = malloc(sb.cluster_size);
+    if (buffer == NULL) {
+        printf("CHYBA: Nelze alokovat paměť.\n");
+        return -1;
+    }
+
+    // 4. Načteme první datový blok tohoto adresáře (kde jsou položky)
+    int32_t data_block_num = dir_node.direct1; // Zjednodušení!
+    long data_address = sb.data_start_address + (data_block_num * sb.cluster_size);
+    fseek(fs_file, data_address, SEEK_SET);
+    fread(buffer, sb.cluster_size, 1, fs_file);
+
+    // 5. Projdeme položky v načteném bloku
+    struct directory_item *items = (struct directory_item *)buffer;
+    int total_items = dir_node.file_size / sizeof(struct directory_item);
+    
+    int32_t found_inode = -1; // Nenalezeno
+    for (int i = 0; i < total_items; i++) {
+        if (strncmp(items[i].item_name, item_name, 12) == 0) {
+            // Našli jsme shodu! Vrátíme číslo i-uzlu, na který ukazuje.
+            found_inode = items[i].inode;
+            break; // Ukončíme hledání
+        }
+    }
+
+    // 6. Uvolníme paměť a vrátíme výsledek
+    free(buffer);
+    return found_inode;
+}
 
 void handle_ls(int argc, char **argv) {
-    struct pseudo_inode current_dir_node = fs_read_inode(current_dir_inode_num);
+    printf("handle_ls was called\n");
     
-    int total_items = current_dir_node.file_size / sizeof(struct directory_item);
-    int32_t data_block_num = current_dir_node.direct1;
+    int32_t target_inode_num = -1; // Číslo i-uzlu adresáře, který vypisujeme
+
+    if (argc == 1) {
+        // ----- Případ 1: "ls" (bez argumentů) -----
+        // Chceme vypsat aktuální adresář
+        target_inode_num = current_dir_inode_num;
+        
+    } else {
+        // ----- Případ 2: "ls a1" (s argumentem) -----
+        char *target_name = argv[1];
+        
+        // Zpracování absolutních cest (/a/b) by bylo složitější.
+        // Tato verze předpokládá relativní cestu z aktuálního adresáře.
+        
+        // 1. Najdeme položku 'a1' v aktuálním adresáři
+        target_inode_num = fs_find_item_in_dir(current_dir_inode_num, target_name);
+
+        if (target_inode_num == -1) {
+            printf("PATH NOT FOUND\n");
+            return;
+        }
+    }
+
+    // ----- Společná část pro oba případy -----
+    // Teď, když máme v 'target_inode_num' i-uzel, který chceme vypsat:
+
+    // 1. Načteme i-uzel cílového adresáře
+    struct pseudo_inode target_dir_node = fs_read_inode(target_inode_num);
+
+    // 2. Zkontrolujeme, jestli je to vůbec adresář
+    if (target_dir_node.isDirectory == false) {
+        printf("PATH NOT FOUND\n"); // 'ls' na soubor není povolen
+        return;
+    }
+
+    // 3. Zjistíme počet položek
+    int total_items = target_dir_node.file_size / sizeof(struct directory_item);
+    
+    // 4. Načteme první datový blok adresáře (zjednodušení!)
+    int32_t data_block_num = target_dir_node.direct1;
     long data_address = sb.data_start_address + (data_block_num * sb.cluster_size);
-    
+
     char *buffer = malloc(sb.cluster_size);
     if (buffer == NULL) {
         printf("CHYBA: Nelze alokovat paměť.\n");
@@ -356,7 +442,9 @@ void handle_ls(int argc, char **argv) {
     
     struct directory_item *items = (struct directory_item *)buffer;
     
+    // 5. Projdeme položky a vypíšeme je
     for (int i = 0; i < total_items; i++) {
+        // Musíme načíst i-uzel každé položky, abychom znali typ
         struct pseudo_inode item_node = fs_read_inode(items[i].inode);
         printf("%s: %s\n", item_node.isDirectory ? "DIR" : "FILE", items[i].item_name);
     }

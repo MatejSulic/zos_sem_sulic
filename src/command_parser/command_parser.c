@@ -11,7 +11,7 @@ const CommandEntry command_table[] = {
     {"rm",      1,  handle_rm},
     {"mkdir",   1,  handle_mkdir},
     {"rmdir",   1,  handle_rmdir},
-    {"ls",      0,  handle_ls},  
+    {"ls",      1,  handle_ls},  
     {"cat",     1,  handle_cat},
     {"cd",      1,  handle_cd},
     {"pwd",     0,  handle_pwd},
